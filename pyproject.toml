@@ -1,0 +1,17 @@
+[project]
+name = "mcp-server-client-basic"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "AbhiMokashi01", email = "abhishekmokashi0102@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+mcp-server-client-basic = "mcp_server_client_basic:main"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
