@@ -1,7 +1,23 @@
 from mcp.server import MCPServer
 from db import save_note,list_notes,search_notes
+from external_tools import *
 
 mcp=MCPServer("AIStudybuddy")
+
+@mcp.tool()
+def web_search(query:str)->list[dict]:
+    """Recieves a query and uses tavily search to retrieve resuls"""
+    return tavily_search(query)
+
+@mcp.tool()
+def get_events()->list[dict]:
+    """Receieves list of events from google calender"""
+    return list_upcoming_events()
+
+@mcp.tool()
+def get_tutorials(query:str)->list[dict]:
+    """recieves a query to find tutorial details using youtube data api"""
+    return find_tutorials(query)
 
 @mcp.tool()
 def calculate_percentage(total:int,percentage:float):

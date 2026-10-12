@@ -96,6 +96,7 @@ TOKEN_FILE = BASE_DIR / "token.json"
 
 
 def get_calendar_credentials():
+    """Retrun calender authentication"""
     creds = None
 
     # 1. Load previously authorized credentials
