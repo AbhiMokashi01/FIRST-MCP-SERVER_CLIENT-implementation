@@ -1,5 +1,8 @@
 import psycopg
 from psycopg.rows import dict_row
+import os
+
+
 
 # PostgreSQL connection
 def get_connection():

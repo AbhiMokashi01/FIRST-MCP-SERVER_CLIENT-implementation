@@ -140,7 +140,7 @@ Available Commands:
         if user_input.lower().startswith("/remember "):
 
             # Extract key=value from the command
-            preference = user_input[len("/remember key=value"):]
+            preference = user_input[len("/remember"):]
 
             if "=" not in preference:
                 print("Correct format: /remember key=value")
