@@ -3,4 +3,5 @@ langgraph
 python-dotenv
 langchain
 langchain-groq
-psycopg
+psycopg[binary]
+mcp
