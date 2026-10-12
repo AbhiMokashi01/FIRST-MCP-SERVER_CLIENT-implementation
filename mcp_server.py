@@ -16,7 +16,7 @@ def get_events()->list[dict]:
 
 @mcp.tool()
 def get_tutorials(query:str)->list[dict]:
-    """recieves a query to find tutorial details using youtube data api"""
+    """recieves a query to find or search or give tutorial details using youtube data api"""
     return find_tutorials(query)
 
 @mcp.tool()
