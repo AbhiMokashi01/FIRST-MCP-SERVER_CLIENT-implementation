@@ -6,17 +6,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# PostgreSQL connection
-def get_connection():
-    database_url = os.getenv("DATABASE_URL")
-
-    if not database_url:
-        raise ValueError("DATABASE_URL not found in .env")
-
-    return psycopg.connect(
-        database_url,
-        row_factory=dict_row
-    )
 
 
 
@@ -83,3 +72,47 @@ def search_notes(keyword: str):
             )
 
             return cursor.fetchall()
+
+
+# 4. Save preferences
+
+def save_preference(key: str, value: str) -> dict:
+    """Save or update a learning preference."""
+
+    key = key.strip()
+    value = value.strip()
+
+    if not key or not value:
+        raise ValueError("Preference key and value cannot be empty")
+
+    with get_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO preferences (key, value)
+                VALUES (%s, %s)
+                ON CONFLICT (key)
+                DO UPDATE SET value = EXCLUDED.value
+                RETURNING key, value
+                """,
+                (key, value)
+            )
+
+            return cursor.fetchone()
+
+
+def list_preferences() -> list[dict]:
+    """Read saved learning preferences."""
+
+    with get_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT key, value
+                FROM preferences
+                ORDER BY key
+                """
+            )
+
+            return cursor.fetchall()
+

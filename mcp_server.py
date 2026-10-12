@@ -1,5 +1,5 @@
 from mcp.server import MCPServer
-from db import save_note,list_notes,search_notes
+from db import *
 from external_tools import *
 
 mcp=MCPServer("AIStudybuddy")
@@ -43,6 +43,16 @@ def search_notes_tool(keyword: str):
     print(f"Inside search notes tool with keyword {keyword}")
     # search_notes(keyword)
 
+@mcp.tool()
+def save_preference_tool(key: str, value: str) -> dict:
+    """Save a learning preference explicitly requested by the user."""
+    return save_preference(key, value)
+
+@mcp.tool()
+def list_preferences_tool() -> list[dict]:
+    """Retrieve previously saved learning preferences."""
+    return list_preferences()
+
 @mcp.resource("study://guide/{topic}")
 def study_guide(topic:str)->str:
     """Return a beginer friendly study guide on the topic passed as argument"""
@@ -54,7 +64,9 @@ def explain_topic(topic:str)->str:
     "Generates prompt template to send it to llm to get explaination of the topic"
 
     return "You are a helpful AI study assistant. Explain the topic: {topic} Follow these instructions: 1. Explain the topic in simple language. 2. Provide a real-world example. 3. Include a small code example if applicable. 4. Explain why the topic is useful. 5. End with one practice question. "
-    
+
+
 
 if __name__== "__main__":
     mcp.run(transport="streamable-http")
+
