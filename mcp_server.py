@@ -1,11 +1,11 @@
 from mcp.server import MCPServer
-from fastmcp import FastMCP
 from db import save_note,list_notes,search_notes
 
-mcp=FastMCP("AIStudybuddy")
+mcp=MCPServer("AIStudybuddy")
 
 @mcp.tool()
 def calculate_percentage(total:int,percentage:float):
+    """Accepts total and percentage as parameters and returns calculated percentage"""
     if total < 0:
         raise ValueError("Total cannot be negative")
 
@@ -17,15 +17,20 @@ def calculate_percentage(total:int,percentage:float):
 
 @mcp.tool()
 def save_note_tool(topic: str, content: str):
-    save_note(topic,content)
+    """Accepts topic and content as parameters to save them in database"""
+    print(f"INSIDE SAVE NOTE TOOL with topic:{topic} and content {content}")
+    # save_note(topic,content)
 
 @mcp.tool()
 def search_notes_tool(keyword: str):
-    search_notes(keyword)
+    """Accepts Keyword to search for a book in database"""
+    print(f"Inside search notes tool with keyword {keyword}")
+    # search_notes(keyword)
 
 @mcp.resource("study://guide/{topic}")
 def study_guide(topic:str)->str:
     """Return a beginer friendly study guide on the topic passed as argument"""
+    print("inside study guide tool")
     return f"Generate and return a beginer friendly guide for learning {topic}"
 
 @mcp.prompt()
@@ -35,4 +40,5 @@ def explain_topic(topic:str)->str:
     return "You are a helpful AI study assistant. Explain the topic: {topic} Follow these instructions: 1. Explain the topic in simple language. 2. Provide a real-world example. 3. Include a small code example if applicable. 4. Explain why the topic is useful. 5. End with one practice question. "
     
 
-mcp.run(transport="streamable-http")
+if __name__== "__main__":
+    mcp.run(transport="streamable-http")
