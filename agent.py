@@ -54,9 +54,23 @@ async def main():
     graph.add_edge("tools","chatbot")
 
 
-    app=graph.compile()
+    
 
-    result=await app.ainvoke({"messages":[("user","give me the details about karnataka Forest department")]})
+    #Adding memory to the graph
+
+    memory=InMemorySaver()
+
+    config={"configurable":{
+        "thread_id":"1"
+    }}
+
+    app=graph.compile(checkpointer=memory)
+
+    result=await app.ainvoke({"messages":[("user","Get me the tutorials of Python")]},config)
+
+    print(result["messages"][-1].content)
+
+    result=await app.ainvoke({"messages":[("user","What tutorial is best among you recommended")]},config)
 
     print(result["messages"][-1].content)
 
