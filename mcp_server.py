@@ -33,15 +33,24 @@ def calculate_percentage(total:int,percentage:float):
 
 @mcp.tool()
 def save_note_tool(topic: str, content: str):
-    """Accepts topic and content as parameters to save them in database"""
+    """Accepts topic and content as parameters to save them in PostgreSQL"""
     print(f"INSIDE SAVE NOTE TOOL with topic:{topic} and content {content}")
-    # save_note(topic,content)
+
+    result = save_note(topic, content)
+    print("Saved note:", result, flush=True)
+
+    return {
+        "status": "success",
+        "message": "Note saved successfully",
+        "topic": result["topic"],
+        "id": result["id"]
+    }
 
 @mcp.tool()
 def search_notes_tool(keyword: str):
     """Accepts Keyword to search for a book in database"""
     print(f"Inside search notes tool with keyword {keyword}")
-    # search_notes(keyword)
+    return search_notes(keyword)
 
 @mcp.tool()
 def save_preference_tool(key: str, value: str) -> dict:
